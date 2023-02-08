@@ -4,6 +4,8 @@ import java.util.List;
 
 public class Entrepot extends Usine {
 
+    int capacite = 0;
+
     public Entrepot(int id, int x, int y, String iconeVide, String inconeUnTiers, String inconDeuxTiers,
             String iconPlein,
             List<Composant> entrees, int intervalProduction, List<Composant> sorties) {

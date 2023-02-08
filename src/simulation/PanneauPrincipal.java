@@ -26,7 +26,6 @@ public class PanneauPrincipal extends JPanel {
 			int x2 = usineArrivee.getX();
 			int y2 = usineArrivee.getY();
 			g.drawLine(x1, y1, x2, y2);
-
 		}
 
 		for (Usine usine : Usine.data) {

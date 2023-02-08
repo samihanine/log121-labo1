@@ -3,7 +3,7 @@ package simulation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsineTemplate {
+public class UsineType extends Subject {
     protected String type;
     protected String iconeVide;
     protected String inconeUnTiers;
@@ -12,9 +12,9 @@ public class UsineTemplate {
     protected int intervalProduction;
     protected List<Composant> sorties;
     protected List<Composant> entrees = new ArrayList<>();
-    public static List<UsineTemplate> data = new ArrayList<>();
+    public static List<UsineType> data = new ArrayList<>();
 
-    public UsineTemplate(String type, String iconeVide, String inconeUnTiers, String inconDeuxTiers,
+    public UsineType(String type, String iconeVide, String inconeUnTiers, String inconDeuxTiers,
             String iconPlein, List<Composant> entrees, int intervalProduction, List<Composant> sorties) {
         this.type = type;
         this.iconeVide = iconeVide;
@@ -91,8 +91,8 @@ public class UsineTemplate {
         this.type = type;
     }
 
-    public static UsineTemplate getUsineTemplateByType(String type) {
-        for (UsineTemplate usine : data) {
+    public static UsineType getUsineTemplateByType(String type) {
+        for (UsineType usine : data) {
             if (usine.getType().equals(type)) {
                 return usine;
             }

@@ -3,11 +3,11 @@ package simulation;
 public class Composant {
 
     private String type;
-    private int capacite;
+    private int quantite;
 
-    public Composant(String type, int capacite) {
+    public Composant(String type, int quantite) {
         this.type = type;
-        this.capacite = capacite;
+        this.quantite = quantite;
     }
 
     public String getType() {
@@ -18,12 +18,12 @@ public class Composant {
         this.type = type;
     }
 
-    public int getCapacite() {
-        return capacite;
+    public int getQuantite() {
+        return quantite;
     }
 
-    public void setCapacite(int capacite) {
-        this.capacite = capacite;
+    public void setQuantite(int quantite) {
+        this.quantite = quantite;
     }
 
 }

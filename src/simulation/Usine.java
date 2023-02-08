@@ -3,7 +3,7 @@ package simulation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Usine extends UsineTemplate {
+public class Usine extends UsineType {
 
     protected int id;
     protected int x;
@@ -20,7 +20,7 @@ public class Usine extends UsineTemplate {
         data.add(this);
     }
 
-    public Usine(UsineTemplate template, int id, int x, int y) {
+    public Usine(UsineType template, int id, int x, int y) {
         super(template.type, template.iconeVide, template.inconeUnTiers, template.inconDeuxTiers, template.iconPlein,
                 template.entrees, template.intervalProduction, template.sorties);
         this.id = id;

@@ -13,13 +13,11 @@ public class UsineType {
     protected List<Inventaire> inventaire = new ArrayList<>();
     protected String composantSortie = null;
     public static List<UsineType> data = new ArrayList<>();
-    protected boolean entrepot = false;
     protected int etat = 0;
     protected double time = 0.0;
 
     public UsineType(String type, String iconeVide, String inconeUnTiers, String inconDeuxTiers,
-            String iconPlein, int intervalProduction, List<Inventaire> inventaire, String composantSortie,
-            boolean entrepot) {
+            String iconPlein, int intervalProduction, List<Inventaire> inventaire, String composantSortie) {
         this.type = type;
         this.iconeVide = iconeVide;
         this.inconeUnTiers = inconeUnTiers;
@@ -28,7 +26,6 @@ public class UsineType {
         this.inventaire = inventaire;
         this.intervalProduction = intervalProduction;
         this.composantSortie = composantSortie;
-        this.entrepot = entrepot;
         data.add(this);
     }
 
@@ -41,15 +38,6 @@ public class UsineType {
         this.inventaire = template.getInventaire();
         this.intervalProduction = template.getIntervalProduction();
         this.composantSortie = template.getComposantSortie();
-        this.entrepot = template.getEntrepot();
-    }
-
-    public void setEntrepot(boolean entrepot) {
-        this.entrepot = entrepot;
-    }
-
-    public boolean getEntrepot() {
-        return entrepot;
     }
 
     public String getIconeVide() {
@@ -115,6 +103,41 @@ public class UsineType {
 
     public void setInventaire(List<Inventaire> inventaire) {
         this.inventaire = inventaire;
+    }
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+
+    public Inventaire getInventaireItem(String composantType) {
+        for (Inventaire item : inventaire) {
+            if (item.getComposantType().equals(composantType)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public boolean ajouterInventaire(String composantType) {
+        Inventaire item = getInventaireItem(composantType);
+        if (item != null) {
+            item.setQuantite(item.getQuantite() + 1);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean retirerInventaire(String composantType) {
+        Inventaire item = getInventaireItem(composantType);
+        if (item != null) {
+            item.setQuantite(item.getQuantite() - 1);
+            return true;
+        }
+        return false;
     }
 
     public String getComposantSortie() {

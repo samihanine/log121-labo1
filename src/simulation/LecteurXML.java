@@ -6,9 +6,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import assets.Chemin;
+import assets.Entrepot;
 import assets.Inventaire;
 import assets.Usine;
 import assets.UsineType;
+import observateur.ObservateurEntrepot;
+import observateur.Sujet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +72,11 @@ public class LecteurXML {
 
                 UsineType usine = UsineType.getUsineTypeByType(type);
 
-                new Usine(usine, id, x, y);
+                if (usine.getType().equalsIgnoreCase("entrepot")) {
+                    new Entrepot(usine, id, x, y);
+                } else {
+                    new Usine(usine, id, x, y);
+                }
             }
 
             if (node.getNodeName().contains("chemins")) {
@@ -89,6 +96,18 @@ public class LecteurXML {
             }
 
         }
+
+        List<Entrepot> entrepots = Usine.getEntrepots();
+        if (entrepots.size() > 0) {
+            Entrepot entrepot = entrepots.get(0);
+            for (Usine usine : Usine.data) {
+                if (usine instanceof Entrepot)
+                    continue;
+
+                usine.setObservateur(new ObservateurEntrepot(entrepot.getSujet()));
+            }
+        }
+
     }
 
     private void templatesCreation(Node metadonnesBalise) {
@@ -109,7 +128,6 @@ public class LecteurXML {
             String iconeDeuxTiers = "";
             List<Inventaire> inventaire = new ArrayList<Inventaire>();
             String sortie = "";
-            boolean entrepot = false;
 
             NodeList usineChildren = usine.getChildNodes();
 
@@ -164,12 +182,7 @@ public class LecteurXML {
                 }
             }
 
-            if (type.contains("entrepot")) {
-                entrepot = true;
-            }
-
-            new UsineType(type, iconeVide, iconeUnTiers, iconeDeuxTiers, iconePlein, interval, inventaire, sortie,
-                    entrepot);
+            new UsineType(type, iconeVide, iconeUnTiers, iconeDeuxTiers, iconePlein, interval, inventaire, sortie);
         }
     }
 }

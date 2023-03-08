@@ -4,10 +4,11 @@ import javax.swing.SwingWorker;
 
 import assets.Composant;
 import assets.Usine;
+import stategie.ContexteVente;
 
 public class Environnement extends SwingWorker<Object, String> {
 	private boolean actif = true;
-	private static final int DELAI = 10;
+	private static final int DELAI = 20;
 
 	@Override
 	protected Object doInBackground() throws Exception {
@@ -17,6 +18,8 @@ public class Environnement extends SwingWorker<Object, String> {
 			Usine.updateAll();
 
 			Composant.updateAll();
+
+			ContexteVente.vendre();
 
 			firePropertyChange("TEST", null, null);
 		}

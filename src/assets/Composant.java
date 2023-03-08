@@ -107,7 +107,7 @@ public class Composant implements Asset {
 
             if (composant.getArrivee()) {
                 Usine usine = Usine.getUsineById(composant.getUsineDestinationId());
-                usine.updateInventaire(composant.getType());
+                usine.ajouterInventaire(composant.getType());
                 data.remove(composant);
                 break;
             }

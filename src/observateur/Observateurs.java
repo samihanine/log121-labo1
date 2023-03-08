@@ -1,7 +1,7 @@
 package observateur;
 
-public interface Observateurs {
+public abstract class Observateurs {
+	protected Sujet sujet;
 
-    public abstract void update();
-
+	public abstract void update();
 }

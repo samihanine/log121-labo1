@@ -3,12 +3,15 @@ package assets;
 import java.util.ArrayList;
 import java.util.List;
 
+import observateur.ObservateurEntrepot;
+
 public class Usine extends UsineType implements Asset {
 
     protected int id;
     protected int x;
     protected int y;
     public static List<Usine> data = new ArrayList<>();
+    private ObservateurEntrepot observateur;
 
     public Usine(UsineType template, int id, int x, int y) {
         super(template);
@@ -42,6 +45,14 @@ public class Usine extends UsineType implements Asset {
         this.y = y;
     }
 
+    public void setObservateur(ObservateurEntrepot observateur) {
+        this.observateur = observateur;
+    }
+
+    public ObservateurEntrepot getObservateur() {
+        return observateur;
+    }
+
     public static Usine getUsineById(int id) {
         for (Usine usine : data) {
             if (usine.getId() == id) {
@@ -55,18 +66,28 @@ public class Usine extends UsineType implements Asset {
         if (!inventaireRempli())
             return;
 
+        if (observateur != null) {
+            if (observateur.getEtat() == 3) {
+                time = 0;
+                return;
+            }
+
+        }
+
+        int max = intervalProduction * ((observateur.getEtat() + 1));
+
         time++;
 
-        if (time >= intervalProduction) {
+        if (time >= max) {
             time = 0;
             produireComposant();
         }
 
-        if (time >= intervalProduction * 3 / 4) {
+        if (time >= max * 3 / 4) {
             etat = 3;
-        } else if (time >= intervalProduction * 2 / 4) {
+        } else if (time >= max * 2 / 4) {
             etat = 2;
-        } else if (time >= intervalProduction * 1 / 4) {
+        } else if (time >= max * 1 / 4) {
             etat = 1;
         } else {
             etat = 0;
@@ -97,6 +118,13 @@ public class Usine extends UsineType implements Asset {
         if (usineDestinationId == -1)
             return;
 
+        for (Inventaire inventaire : inventaire) {
+            if (inventaire.getComposantType().equalsIgnoreCase(composantSortie)) {
+                inventaire.setQuantite(inventaire.getQuantite() - inventaire.getQuantiteRequise());
+                break;
+            }
+        }
+
         new Composant(composantSortie, x, y, usineDestinationId);
     }
 
@@ -108,14 +136,6 @@ public class Usine extends UsineType implements Asset {
         return true;
     }
 
-    public void updateInventaire(String composantType) {
-        for (Inventaire inventaire : inventaire) {
-            if (inventaire.getComposantType().equals(composantType)) {
-                inventaire.setQuantite(inventaire.getQuantite() + 1);
-            }
-        }
-    }
-
     public String getIcon() {
         if (etat == 0)
             return iconeVide;
@@ -125,6 +145,16 @@ public class Usine extends UsineType implements Asset {
             return inconDeuxTiers;
 
         return iconPlein;
+    }
+
+    public static List<Entrepot> getEntrepots() {
+        List<Entrepot> entrepots = new ArrayList<>();
+        for (Usine usine : data) {
+            if (usine instanceof Entrepot) {
+                entrepots.add((Entrepot) usine);
+            }
+        }
+        return entrepots;
     }
 
 }

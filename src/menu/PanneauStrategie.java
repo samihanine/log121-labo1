@@ -11,6 +11,10 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
+import stategie.ContexteVente;
+import stategie.VenteAleatoire;
+import stategie.VenteFixe;
+
 public class PanneauStrategie extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -24,9 +28,12 @@ public class PanneauStrategie extends JPanel {
 		JButton boutonConfirmer = new JButton("Confirmer");
 
 		boutonConfirmer.addActionListener((ActionEvent e) -> {
-			// TODO - Appeler la bonne strat�gie
-			System.out.println(getSelectedButtonText(groupeBoutons));
-			// Fermer la fen�tre du composant
+			if (e.getSource() == strategie1) {
+				ContexteVente.setStrategie(new VenteAleatoire());
+			} else if (e.getSource() == strategie2) {
+				ContexteVente.setStrategie(new VenteFixe());
+			}
+
 			SwingUtilities.getWindowAncestor((Component) e.getSource()).dispose();
 		});
 

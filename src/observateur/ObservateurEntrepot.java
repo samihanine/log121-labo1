@@ -1,13 +1,19 @@
 package observateur;
 
-public class ObservateurEntrepot implements Observateurs {
+public class ObservateurEntrepot extends Observateurs {
+	private int etat = 0;
 
-    int state;
+	public ObservateurEntrepot(Sujet sujet) {
+		this.sujet = sujet;
+		this.sujet.attache(this);
+	}
 
-    @Override
-    public void update() {
-        // TODO Auto-generated method stub
+	public void update() {
+		etat = sujet.getEtat();
+	}
 
-    }
+	public int getEtat() {
+		return etat;
+	}
 
 }

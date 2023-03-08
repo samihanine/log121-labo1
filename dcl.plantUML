@@ -20,7 +20,7 @@ class Composant {
 +void setQuantite(int quantite)
 }
 
-class UsineTemplate {
+class UsineType {
 -String type
 -String iconeVide
 -String inconeUnTiers
@@ -30,7 +30,7 @@ class UsineTemplate {
 -List sorties
 -List entrees 
 -List data
-+UsineTemplate(String type, String iconeVide, String inconeUnTiers, String inconDeuxTiers,
++UsineType(String type, String iconeVide, String inconeUnTiers, String inconDeuxTiers,
 String iconPlein, List<Composant> entrees, int intervalProduction, List<Composant> sorties)
 +String getIconeVide()
 +String getInconeUnTiers()
@@ -48,7 +48,7 @@ String iconPlein, List<Composant> entrees, int intervalProduction, List<Composan
 +void setSorties(List<Composant> sorties)
 +String getType()
 +void setType(String type)
-+static UsineTemplate getUsineTemplateByType(String type)
++static UsineType getUsineTypeByType(String type)
 }
 
 class Usine {
@@ -57,7 +57,7 @@ class Usine {
 -int y
 {static} - List data
 +Usine(int id, int x, int y, String iconeVide, String inconeUnTiers, String inconDeuxTiers, String iconPlein, List<Composant> entrees, int intervalProduction, List<Composant> sorties)
-+Usine(UsineTemplate template, int id, int x, int y)
++Usine(UsineType template, int id, int x, int y)
 +int getId()
 +int getX()
 +int getY()
@@ -163,7 +163,7 @@ FenetrePrincipale --- MenuFenetre
 FenetrePrincipale --- PanneauPrincipal
 FenetreStrategie --- PanneauStrategie
 Simulation --> FenetrePrincipale
-UsineTemplate <|-- Usine
+UsineType <|-- Usine
 Usine <|-- Entrepot
 MenuFenetre --> LecteurXML
 Usine "0" *-- "*" Composant

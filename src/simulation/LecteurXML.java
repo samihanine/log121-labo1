@@ -4,16 +4,25 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import assets.Chemin;
+import assets.Inventaire;
+import assets.Usine;
+import assets.UsineType;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.stream.events.EntityReference;
+
 public class LecteurXML {
 
-    LecteurXML() {
+    public LecteurXML() {
     }
 
     public void lecture(Document doc) {
         try {
+
             doc.getDocumentElement().normalize();
 
             NodeList metadonnesBalises = doc.getElementsByTagName("metadonnees");
@@ -25,20 +34,22 @@ public class LecteurXML {
 
             NodeList simulationBalises = doc.getElementsByTagName("simulation");
 
+            System.out.println("----------------------------");
+
             for (int i = 0; i < simulationBalises.getLength(); i++) {
                 Node simulationBalise = simulationBalises.item(i);
                 simulationCreation(simulationBalise);
             }
 
             for (Usine usine : Usine.data) {
-                System.out.println(usine.type + ", x: " + usine.x + ", y: " + usine.y + ", id: " + usine.id);
+                System.out.println(usine);
             }
+
+            System.out.println("----------------------------");
             // use SAXException instead of Exception
-
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
-
     }
 
     private void simulationCreation(Node simulationBalise) {
@@ -56,7 +67,7 @@ public class LecteurXML {
                 int y = Integer.parseInt(((Element) node).getAttribute("y"));
                 int id = Integer.parseInt(((Element) node).getAttribute("id"));
 
-                UsineType usine = UsineType.getUsineTemplateByType(type);
+                UsineType usine = UsineType.getUsineTypeByType(type);
 
                 new Usine(usine, id, x, y);
             }
@@ -90,14 +101,15 @@ public class LecteurXML {
                 continue;
 
             String type = ((Element) usine).getAttribute("type");
-            // boolean entrepot = false;
+
             int interval = 0;
             String iconeVide = "";
             String iconePlein = "";
             String iconeUnTiers = "";
             String iconeDeuxTiers = "";
-            List<Composant> entree = new ArrayList<Composant>();
-            List<Composant> sortie = new ArrayList<Composant>();
+            List<Inventaire> inventaire = new ArrayList<Inventaire>();
+            String sortie = "";
+            boolean entrepot = false;
 
             NodeList usineChildren = usine.getChildNodes();
 
@@ -138,21 +150,26 @@ public class LecteurXML {
                 }
 
                 if (node.getNodeName().contains("entree")) {
-                    // String composantType = ((Element) node).getAttribute("type");
-                    // int composantCapacite = Integer.parseInt(((Element)
-                    // node).getAttribute("capacite"));
+                    String composantType = ((Element) node).getAttribute("type");
+                    String capacite = ((Element) node).getAttribute("capacite");
+                    String quantite = ((Element) node).getAttribute("quantite");
+                    String quantiteRequis = capacite == null || capacite.isEmpty() ? quantite : capacite;
+                    int composantCapacite = Integer.parseInt((quantiteRequis));
+                    Inventaire item = new Inventaire(composantType, composantCapacite);
+                    inventaire.add(item);
+                }
 
-                    // Composant composant = new Composant(composantType, composantCapacite);
-                    // entree.add(composant);
+                if (node.getNodeName().contains("sortie")) {
+                    sortie = ((Element) node).getAttribute("type");
                 }
             }
 
             if (type.contains("entrepot")) {
-                // entrepot = true;
+                entrepot = true;
             }
 
-            new UsineType(type, iconeVide, iconeUnTiers, iconeDeuxTiers, iconePlein,
-                    entree, interval, sortie);
+            new UsineType(type, iconeVide, iconeUnTiers, iconeDeuxTiers, iconePlein, interval, inventaire, sortie,
+                    entrepot);
         }
     }
 }

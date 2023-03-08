@@ -1,4 +1,4 @@
-package simulation;
+package menu;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -13,6 +13,8 @@ import javax.swing.filechooser.FileSystemView;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
+
+import simulation.LecteurXML;
 
 public class MenuFenetre extends JMenuBar {
 

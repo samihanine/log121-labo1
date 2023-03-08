@@ -1,6 +1,6 @@
-package simulation;
+package observateur;
 
-public class ObservateurEntrepot implements Observer {
+public class ObservateurEntrepot implements Observateurs {
 
     int state;
 

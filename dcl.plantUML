@@ -1,161 +1,187 @@
 @startuml DCL
-class Chemin {
--int departId
--int arriveeId
--List data
-+Chemin(int departId, int arriveeId)
-+int getDepartId()
-+int getArriveeId()
-+void setDepartId(int departId)
-+void setArriveeId(int arriveeId)
+
+package assets {
+    interface Asset {
+        +getX(): int
+        +getY(): int
+        +setX(x: int): void
+        +setY(y: int): void
+        +getIcon(): String
+    }
+
+    class Chemin {
+        -int departId
+        -int arriveeId
+        -List data
+        +Chemin(int departId, int arriveeId)
+        +int getDepartId()
+        +int getArriveeId()
+        +void setDepartId(int departId)
+        +void setArriveeId(int arriveeId)
+    }
+
+    class Composant {
+        -String type
+        -int quantite
+        +Composant(String type, int quantite)
+        +String getType()
+        +void setType(String type)
+        +int getQuantite()
+        +void setQuantite(int quantite)
+    }
+
+    class UsineType {
+        - type: String
+        - iconeVide: String
+        - inconeUnTiers: String
+        - inconDeuxTiers: String
+        - iconPlein: String
+        - intervalProduction: int
+        - inventaire: List<Inventaire>
+        - composantSortie: String
+        - etat: int
+        - time: double
+        + data: List<UsineType>
+        + UsineType(type: String, iconeVide: String, inconeUnTiers: String, inconDeuxTiers: String, iconPlein: String, intervalProduction: int, inventaire: List<Inventaire>, composantSortie: String)
+        + UsineType(template: UsineType)
+        + static getUsineTypeByType(type: String): UsineType
+        + getInventaireItem(composantType: String): Inventaire
+        + ajouterInventaire(composantType: String): boolean
+        + retirerInventaire(composantType: String): boolean
+    }
+
+    class Usine {
+        -int id
+        -int x
+        -int y
+        {static} - List data
+        +Usine(int id, int x, int y, String iconeVide, String inconeUnTiers, String inconDeuxTiers, String iconPlein, List<Composant> entrees, int intervalProduction, List<Composant> sorties)
+        +Usine(UsineType template, int id, int x, int y)
+        +static Usine getUsineById(int id)
+    }
+
+    class Entrepot {
+        - sujet: Sujet
+        + Entrepot(template: UsineType, id: int, x: int, y: int)
+        + getSujet(): Sujet
+        + vendre(): boolean
+        + update(): void
+        + setEtat(etat: int): void
+    }
+
+    class Inventaire {
+        - quantite: int = 0
+        - quantiteRequise: int = 0
+        - composantType: String
+        + Inventaire(composantType: String, quantiteRequise: int)
+    }
 }
 
-class Composant {
--String type
--int quantite
-+Composant(String type, int quantite)
-+String getType()
-+void setType(String type)
-+int getQuantite()
-+void setQuantite(int quantite)
+
+package simulation {
+
+    class Simulation {
+    + static void main(String[])
+    }
+
+    class Environnement {
+    - boolean actif
+    - int DELAI
+    + void doInBackground()
+    + void firePropertyChange(String, Object, Object)
+    }
+
+    class LecteurXML {
+    + void lecture()
+    - void simulationCreation()
+    - void templatesCreation()
+    }
+
 }
 
-class UsineType {
--String type
--String iconeVide
--String inconeUnTiers
--String inconDeuxTiers
--String iconPlein
--int intervalProduction
--List sorties
--List entrees 
--List data
-+UsineType(String type, String iconeVide, String inconeUnTiers, String inconDeuxTiers,
-String iconPlein, List<Composant> entrees, int intervalProduction, List<Composant> sorties)
-+String getIconeVide()
-+String getInconeUnTiers()
-+String getInconDeuxTiers()
-+String getIconPlein()
-+void setIconeVide(String iconeVide)
-+void setInconeUnTiers(String inconeUnTiers)
-+void setInconDeuxTiers(String inconDeuxTiers)
-+void setIconPlein(String iconPlein)
-+List<Composant> getEntrees()
-+void setEntrees(List<Composant> entrees)
-+int getIntervalProduction()
-+void setIntervalProduction(int intervalProduction)
-+List<Composant> getSorties()
-+void setSorties(List<Composant> sorties)
-+String getType()
-+void setType(String type)
-+static UsineType getUsineTypeByType(String type)
+package menu {
+    class FenetrePrincipale {
+        {static} - long serialVersionUID
+        {static} - String TITRE_FENETRE
+        {static} - Dimension DIMENSION
+        + FenetrePrincipale()
+        + void propertyChange(PropertyChangeEvent)
+    }
+
+    class FenetreStrategie {
+        {static} - long serialVersionUID
+        {static} - String TITRE_FENETRE
+        {static} - Dimension DIMENSION 
+        - PanneauStrategie panneauStrategie
+        + FenetreStrategie()
+    }
+
+    class MenuFenetre {
+    + MenuFenetre()
+    + void ajouterMenuFichier()
+    + void ajouterMenuSimulation()
+    + void ajouterMenuAide()
+    }
+
+    class PanneauPrincipal {
+    - static final long serialVersionUID = 1L
+    + void paint(Graphics)
+    }
+
+    class PanneauStrategie {
+    - static final long serialVersionUID = 1L
+    + PanneauStrategie()
+    }
 }
 
-class Usine {
--int id
--int x
--int y
-{static} - List data
-+Usine(int id, int x, int y, String iconeVide, String inconeUnTiers, String inconDeuxTiers, String iconPlein, List<Composant> entrees, int intervalProduction, List<Composant> sorties)
-+Usine(UsineType template, int id, int x, int y)
-+int getId()
-+int getX()
-+int getY()
-+void setId(int id)
-+void setX(int x)
-+void setY(int y)
-+static Usine getUsineById(int id)
+
+
+
+package observateur {
+    class Sujet {
+        - listeObservateur: List
+        - etat : int 
+        + attache(ObservateurEntrepot: o)
+        + detache(o: ObservateurEntrepot)
+        + notifierObservateurs()
+        + getEtat()
+        + setEtat(etat: int)
+    }
+
+    interface Observateur {
+        + void update(Subject)
+    }
+
+    class ObservateurEntrepot {
+        + ObservateurEntrepot(Subject sujet)
+        + void update(Subject)
+        + int getEtat()
+    }
 }
 
-class Environnement {
-- boolean actif
-- int DELAI
-+ void doInBackground()
-+ void firePropertyChange(String, Object, Object)
+package strategie {
+
+    interface ContexteStrategie {
+        {static} - Strategie strategie
+        {static} + void update()
+        {static} + void setStrategie(Strategie)
+        {static} + Strategie getStrategie()
+    }
+
+    interface Strategie {
+        + void update()
+    }
+
+    class StrategieFixe {
+        + void update()
+    }
+
+    class StrategieAleatoire {
+        + void update()
+    }
+
 }
 
-class FenetrePrincipale {
-{static} - long serialVersionUID
-{static} - String TITRE_FENETRE
-{static} - Dimension DIMENSION
-+ FenetrePrincipale()
-+ void propertyChange(PropertyChangeEvent)
-}
-
-class FenetreStrategie {
-{static} - long serialVersionUID
-{static} - String TITRE_FENETRE
-{static} - Dimension DIMENSION 
-- PanneauStrategie panneauStrategie
-+ FenetreStrategie()
-}
-
-class MenuFenetre {
-- static final long serialVersionUID = 1L
-- static final String MENU_FICHIER_TITRE = "Fichier"
-- static final String MENU_FICHIER_CHARGER = "Charger"
-- static final String MENU_FICHIER_QUITTER = "Quitter"
-- static final String MENU_SIMULATION_TITRE = "Simulation"
-- static final String MENU_SIMULATION_CHOISIR = "Choisir"
-- static final String MENU_AIDE_TITRE = "Aide"
-- static final String MENU_AIDE_PROPOS = "� propos de..."
-+ MenuFenetre()
-+ void ajouterMenuFichier()
-+ void ajouterMenuSimulation()
-+ void ajouterMenuAide()
-}
-
-class PanneauPrincipal {
-- static final long serialVersionUID = 1L
-+ void paint(Graphics)
-}
-
-class PanneauStrategie {
-- static final long serialVersionUID = 1L
-+ PanneauStrategie()
-}
-
-class Simulation {
-+ static void main(String[])
-}
-
-class LecteurXML {
-+ void lecture()
-- void simulationCreation()
-- void templatesCreation()
-}
-
-class Entrepot {
-- state
-+ Entrepot(int id, int x, int y, String iconeVide, String inconeUnTiers, String inconDeuxTiers, String iconPlein, List<Composant> entrees, int intervalProduction, List<Composant> sorties)
-+ State getState()
-}
-
-class Subject {
-+ void addObserver(Observer)
-+ void removeObserver(Observer)
-+ void notifyObservers()
-}
-
-interface Observer {
-+ void update(Subject)
-}
-
-class ObservateurEntrepot {
-+ void update(Subject)
-}
-
-interface Strategie {
-+ void vente()
-}
-
-class StrategieFixe {
-+ void update(Subject)
-}
-
-class StrategieAleatoire {
-+ void update(Subject)
-}
 
 Environnement --- FenetrePrincipale
 FenetrePrincipale --- FenetreStrategie
@@ -166,18 +192,20 @@ Simulation --> FenetrePrincipale
 UsineType <|-- Usine
 Usine <|-- Entrepot
 MenuFenetre --> LecteurXML
-Usine "0" *-- "*" Composant
+Usine "0" *-- "*" Inventaire
+Inventaire "0" *-- "*" Composant
 
 PanneauPrincipal --> Usine
 PanneauPrincipal --> Chemin
 
-ObservateurEntrepot ..|> Observer
-Entrepot --> Subject
-Observer --- Subject
-ObservateurEntrepot --> Entrepot
+ObservateurEntrepot ..|> Observateur
+Entrepot --> Sujet
+Observateur --- Sujet
+Entrepot --- Sujet
+ObservateurEntrepot --> Usine
 
 StrategieFixe ..|> Strategie
-ProbaAleatoire ..|> Strategie
-Entrepot  "1" *-- "*" Strategie
-
+StrategieAleatoire ..|> Strategie
+ContexteStrategie --- Strategie
+PanneauStrategie --- ContexteStrategie
 @enduml

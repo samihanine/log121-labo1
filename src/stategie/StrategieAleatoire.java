@@ -5,9 +5,9 @@ import java.util.List;
 import assets.Entrepot;
 import assets.Usine;
 
-public class VenteAleatoire implements Vente {
+public class StrategieAleatoire implements Strategie {
 
-    public void vendre() {
+    public void update() {
         int aleatoire = (int) (Math.random() * 100);
 
         if (aleatoire < 98)

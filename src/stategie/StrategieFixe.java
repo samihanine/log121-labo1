@@ -5,11 +5,11 @@ import java.util.List;
 import assets.Entrepot;
 import assets.Usine;
 
-public class VenteFixe implements Vente {
+public class StrategieFixe implements Strategie {
     int time = 0;
     int intervalVente = 200;
 
-    public void vendre() {
+    public void update() {
         time++;
         if (time < intervalVente)
             return;

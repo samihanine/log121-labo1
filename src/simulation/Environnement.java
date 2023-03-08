@@ -4,7 +4,7 @@ import javax.swing.SwingWorker;
 
 import assets.Composant;
 import assets.Usine;
-import stategie.ContexteVente;
+import stategie.ContexteStrategie;
 
 public class Environnement extends SwingWorker<Object, String> {
 	private boolean actif = true;
@@ -19,7 +19,7 @@ public class Environnement extends SwingWorker<Object, String> {
 
 			Composant.updateAll();
 
-			ContexteVente.vendre();
+			ContexteStrategie.update();
 
 			firePropertyChange("TEST", null, null);
 		}

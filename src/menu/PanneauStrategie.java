@@ -11,9 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
-import stategie.ContexteVente;
-import stategie.VenteAleatoire;
-import stategie.VenteFixe;
+import stategie.ContexteStrategie;
+import stategie.StrategieAleatoire;
+import stategie.StrategieFixe;
 
 public class PanneauStrategie extends JPanel {
 
@@ -29,9 +29,9 @@ public class PanneauStrategie extends JPanel {
 
 		boutonConfirmer.addActionListener((ActionEvent e) -> {
 			if (e.getSource() == strategie1) {
-				ContexteVente.setStrategie(new VenteAleatoire());
+				ContexteStrategie.setStrategie(new StrategieAleatoire());
 			} else if (e.getSource() == strategie2) {
-				ContexteVente.setStrategie(new VenteFixe());
+				ContexteStrategie.setStrategie(new StrategieFixe());
 			}
 
 			SwingUtilities.getWindowAncestor((Component) e.getSource()).dispose();

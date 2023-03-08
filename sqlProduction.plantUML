@@ -1,0 +1,44 @@
+@startuml
+title Produire Composant
+
+actor User
+participant Usine
+participant Chemin
+participant Inventaire
+participant Composant
+
+User -> Usine : produireComposant()
+
+activate Usine
+Usine -> Chemin : getDepartId()
+activate Chemin
+Chemin --> Usine : id
+deactivate Chemin
+
+alt usine != null
+    Usine -> Usine : getUsineById()
+    activate Usine
+    Usine --> Usine : usineDestinationId
+    deactivate Usine
+
+    Usine -> Inventaire : getComposantType()
+    activate Inventaire
+    Inventaire --> Usine : inventaire
+    deactivate Inventaire
+
+    alt inventaire == composantSortie
+        Usine -> Inventaire : setQuantite()
+        activate Inventaire
+        Inventaire --> Usine
+        deactivate Inventaire
+
+        Usine -> Composant : Composant()
+        activate Composant
+        Composant --> Usine
+        deactivate Composant
+    end
+
+end
+
+deactivate Usine
+@enduml

@@ -1,0 +1,21 @@
+@startuml Observateur
+title Patron Observateur 
+
+participant Sujet
+participant Observateur
+participant ObservateurEntrepot
+participant Entrepot
+participant Usine
+
+Usine -> ObservateurEntrepot: ObservateurEntrepot()
+
+Sujet -> Observateur: ajouterObservateur()
+Sujet -> Observateur: supprimerObservateur()
+Sujet -> Observateur: notifierObservateurs()
+
+Observateur -> ObservateurEntrepot: mettreAJour()
+
+ObservateurEntrepot -> Entrepot: obtenirEtat()
+Entrepot -> ObservateurEntrepot: renvoyerEtat()
+
+@enduml
